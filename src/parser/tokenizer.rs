@@ -7,21 +7,21 @@ pub struct Tokenizer;
 
 impl Tokenizer {
     /// Parse syntax tokens from input string
-    /// 
+    ///
     /// ```
     /// use gtk_ui_builder::parser::prelude::*;
-    /// 
+    ///
     /// let tokens = Tokenizer::parse("[a b c]").expect("Failed to tokenize");
-    /// 
+    ///
     /// if let Token::SquareBrackets { tokens, .. } = &tokens[0] {
     ///     let mut list = Vec::new();
-    /// 
+    ///
     ///     for token in tokens {
     ///         if let Token::Other { value, .. } = token {
     ///             list.push(value);
     ///         }
     ///     }
-    /// 
+    ///
     ///     println!("Tokenized list: {:?}", list);
     /// }
     /// ```
@@ -42,7 +42,7 @@ impl Tokenizer {
                     tokens.push(Token::Other {
                         begin: token_begin,
                         end: i - 1,
-                        value: word
+                        value: word,
                     });
 
                     word = String::new();
@@ -58,7 +58,7 @@ impl Tokenizer {
                     tokens.push(Token::Other {
                         begin: token_begin,
                         end: i - 1,
-                        value: word
+                        value: word,
                     });
 
                     token_begin = i;
@@ -74,9 +74,7 @@ impl Tokenizer {
                         correct_str = true;
 
                         break;
-                    }
-
-                    else {
+                    } else {
                         word.push(text[i]);
                     }
 
@@ -89,14 +87,14 @@ impl Tokenizer {
                         message: format!("Incorrect string format found from offset {} to {}", token_begin, i),
                         begin: token_begin,
                         end: i,
-                        wrong_string: word
+                        wrong_string: word,
                     });
                 }
 
                 tokens.push(Token::Text {
                     begin: token_begin,
                     end: i,
-                    value: word
+                    value: word,
                 });
 
                 word = String::new();
@@ -110,7 +108,7 @@ impl Tokenizer {
                     tokens.push(Token::Other {
                         begin: token_begin,
                         end: i - 1,
-                        value: word
+                        value: word,
                     });
 
                     token_begin = i;
@@ -132,9 +130,7 @@ impl Tokenizer {
 
                                 break;
                             }
-                        }
-
-                        else {
+                        } else {
                             brackets_stack.push_back(text[i]);
                         }
                     }
@@ -149,16 +145,16 @@ impl Tokenizer {
                         message: format!("Incorrect brackets format found from offset {} to {}", token_begin, i),
                         begin: token_begin,
                         end: i,
-                        wrong_string: word
+                        wrong_string: word,
                     });
                 }
 
                 let sub_tokens = Self::inc_tokens_offsets(Self::parse(word)?, token_begin + 1);
 
                 tokens.push(match &text[token_begin] {
-                    '(' => Token::Parentheses    { begin: token_begin, end: i, tokens: sub_tokens },
+                    '(' => Token::Parentheses { begin: token_begin, end: i, tokens: sub_tokens },
                     '[' => Token::SquareBrackets { begin: token_begin, end: i, tokens: sub_tokens },
-                    '{' => Token::CurlyBrackets  { begin: token_begin, end: i, tokens: sub_tokens },
+                    '{' => Token::CurlyBrackets { begin: token_begin, end: i, tokens: sub_tokens },
                     _ => unreachable!()
                 });
 
@@ -170,7 +166,8 @@ impl Tokenizer {
             // There may be a situation like {}; where ; will be parsed as Other
             // while {} as CurlyBrackets, so technically ; will be the first character. This is wrong
             // so we need check previous character
-            else { /* if Self::is_normal_char(text[i], word.is_empty() && (if i > 0 { text[i - 1].is_whitespace() } else { true })) {*/
+            else {
+                /* if Self::is_normal_char(text[i], word.is_empty() && (if i > 0 { text[i - 1].is_whitespace() } else { true })) {*/
                 word.push(text[i]);
             }
 
@@ -190,7 +187,7 @@ impl Tokenizer {
             tokens.push(Token::Other {
                 begin: token_begin,
                 end: text.len() - 1,
-                value: word
+                value: word,
             });
         }
 
@@ -222,22 +219,28 @@ impl Tokenizer {
     fn inc_tokens_offsets(mut tokens: Vec<Token>, offset: usize) -> Vec<Token> {
         for token in &mut tokens {
             match token {
-                Token::Text  { begin, end, .. } => { *begin += offset; *end += offset; },
-                Token::Other { begin, end, .. } => { *begin += offset; *end += offset; },
+                Token::Text { begin, end, .. } => {
+                    *begin += offset;
+                    *end += offset;
+                }
+                Token::Other { begin, end, .. } => {
+                    *begin += offset;
+                    *end += offset;
+                }
 
                 Token::Parentheses { begin, end, tokens } => {
                     *begin += offset;
                     *end += offset;
                     *tokens = Self::inc_tokens_offsets(tokens.clone(), offset);
-                },
+                }
 
                 Token::SquareBrackets { begin, end, tokens } => {
                     *begin += offset;
                     *end += offset;
                     *tokens = Self::inc_tokens_offsets(tokens.clone(), offset);
-                },
+                }
 
-                Token::CurlyBrackets  { begin, end, tokens } => {
+                Token::CurlyBrackets { begin, end, tokens } => {
                     *begin += offset;
                     *end += offset;
                     *tokens = Self::inc_tokens_offsets(tokens.clone(), offset);

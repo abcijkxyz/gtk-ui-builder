@@ -1,10 +1,10 @@
 use gtk4::prelude::ObjectExt;
 
-use crate::parser::parser::Parser;
 use crate::parser::parse_error::ParseError;
+use crate::parser::parser::Parser;
 
 pub struct Builder {
-    pub builder: gtk4::Builder
+    pub builder: gtk4::Builder,
 }
 
 impl Builder {
@@ -69,7 +69,7 @@ impl Builder {
                         if let Err(err) = result {
                             println!("Failed to execute rhai script: {}", err);
                         }
-    
+
                         None
                     }) {
                         break;

@@ -5,27 +5,27 @@ pub enum TokenizeError {
     IncorrectChar {
         message: String,
         wrong_string: String,
-        offset: usize
+        offset: usize,
     },
     IncorrectString {
         message: String,
         begin: usize,
         end: usize,
-        wrong_string: String
+        wrong_string: String,
     },
     IncorrectBrackets {
         message: String,
         begin: usize,
         end: usize,
-        wrong_string: String
-    }
+        wrong_string: String,
+    },
 }
 
 impl TokenizeError {
     pub fn get_message(&self) -> &str {
         match self {
-            Self::IncorrectChar     { message, .. } => message,
-            Self::IncorrectString   { message, .. } => message,
+            Self::IncorrectChar { message, .. } => message,
+            Self::IncorrectString { message, .. } => message,
             Self::IncorrectBrackets { message, .. } => message
         }.as_str()
     }

@@ -1,9 +1,9 @@
-use super::entry::Entry;
 use super::entries::prelude::*;
+use super::entry::Entry;
 
 #[derive(Default, Debug, Clone)]
 pub struct Tree {
-    pub root: Root
+    pub root: Root,
 }
 
 impl Tree {

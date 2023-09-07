@@ -7,7 +7,7 @@ pub enum Entry {
     Property(Property),
 
     #[cfg(feature = "rhai-events")]
-    RhaiEvent(RhaiEvent)
+    RhaiEvent(RhaiEvent),
 }
 
 impl Entry {

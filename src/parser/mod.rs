@@ -5,9 +5,9 @@ pub mod tokenizer;
 pub mod parser;
 
 pub mod prelude {
+    pub use super::parse_error::*;
+    pub use super::parser::*;
     pub use super::token::*;
     pub use super::tokenize_error::*;
-    pub use super::parse_error::*;
     pub use super::tokenizer::*;
-    pub use super::parser::*;
 }

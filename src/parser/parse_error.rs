@@ -7,24 +7,24 @@ pub enum ParseError {
     TokenizeError(TokenizeError),
     IncorrectUseStatement {
         message: String,
-        offset: usize
+        offset: usize,
     },
     IncorrectObjectDefinition {
         message: String,
-        offset: usize
+        offset: usize,
     },
     IncorrectPropertyDefinition {
         message: String,
-        offset: usize
+        offset: usize,
     },
     IncorrectSyntax {
         message: String,
-        offset: usize
+        offset: usize,
     },
     IncorrectEventDefinition {
         message: String,
-        offset: usize
-    }
+        offset: usize,
+    },
 }
 
 impl ParseError {

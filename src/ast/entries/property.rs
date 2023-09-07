@@ -1,10 +1,10 @@
-use crate::ast::entry::Entry;
 use crate::ast::entries::object::Object;
+use crate::ast::entry::Entry;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PropertyValue {
     Text(String),
-    Entry(Object)
+    Entry(Object),
 }
 
 impl PropertyValue {
@@ -19,7 +19,7 @@ impl PropertyValue {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Property {
     pub name: String,
-    pub value: PropertyValue
+    pub value: PropertyValue,
 }
 
 impl Property {

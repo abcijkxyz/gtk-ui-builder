@@ -1,10 +1,10 @@
-use crate::ast::tree::Tree;
 use crate::ast::entries::prelude::*;
 use crate::ast::entry::Entry;
+use crate::ast::tree::Tree;
 
-use super::tokenizer::Tokenizer;
-use super::token::Token;
 use super::parse_error::ParseError;
+use super::token::Token;
+use super::tokenizer::Tokenizer;
 
 pub struct Parser;
 
@@ -24,16 +24,14 @@ impl Parser {
                 if i + 2 < tokens.len() && tokens[i + 1].is_other() && tokens[i + 2].is_other() {
                     tree.require(Requirement::new(
                         tokens[i + 1].get_value().unwrap(),
-                        tokens[i + 2].get_value().unwrap()
+                        tokens[i + 2].get_value().unwrap(),
                     ));
 
                     i += 2;
-                }
-
-                else {
+                } else {
                     return Err(ParseError::IncorrectUseStatement {
                         message: format!("Incorrect use statement at offset {}", tokens[i].get_begin()),
-                        offset: tokens[i].get_begin()
+                        offset: tokens[i].get_begin(),
                     });
                 }
             }
@@ -65,7 +63,7 @@ impl Parser {
                         if !correct_ending {
                             return Err(ParseError::IncorrectPropertyDefinition {
                                 message: format!("Property value must be ended by semicolon, occured at offset {}", tokens[i].get_begin()),
-                                offset: tokens[i].get_begin()
+                                offset: tokens[i].get_begin(),
                             });
                         }
 
@@ -81,7 +79,7 @@ impl Parser {
                                 else {
                                     // TODO brackets support
                                     let text = tokens[i + 1].get_value().unwrap();
-                                    
+
                                     PropertyValue::Text(text[..text.len() - 1].to_string())
                                 }
                             } else {
@@ -95,17 +93,15 @@ impl Parser {
                                 if children.len() != 1 {
                                     return Err(ParseError::IncorrectPropertyDefinition {
                                         message: format!("Property value must be a single object, occured at offset {}", tokens[i].get_begin()),
-                                        offset: tokens[i].get_begin()
+                                        offset: tokens[i].get_begin(),
                                     });
-                                }
-
-                                else {
+                                } else {
                                     match &children[0] {
                                         Entry::Object(obj) => PropertyValue::Entry(obj.clone()),
                                         _ => {
                                             return Err(ParseError::IncorrectPropertyDefinition {
                                                 message: format!("Property value must be an object, occured at offset {}", tokens[i].get_begin()),
-                                                offset: tokens[i].get_begin()
+                                                offset: tokens[i].get_begin(),
                                             });
                                         }
                                     }
@@ -114,12 +110,10 @@ impl Parser {
                         }));
 
                         i = j;
-                    }
-
-                    else {
+                    } else {
                         return Err(ParseError::IncorrectPropertyDefinition {
                             message: format!("Incorrect property definition at offset {}", tokens[i].get_begin()),
-                            offset: tokens[i].get_begin()
+                            offset: tokens[i].get_begin(),
                         });
                     }
                 }
@@ -137,28 +131,22 @@ impl Parser {
                                 tree.add_child(RhaiEvent::entry(class, text[begin + 1..end].to_string()));
 
                                 i += 2;
-                            }
-
-                            else {
+                            } else {
                                 return Err(ParseError::IncorrectEventDefinition {
                                     message: format!("Rhai feature is not enabled, occured at offset {}", tokens[i].get_begin()),
-                                    offset: tokens[i].get_begin()
+                                    offset: tokens[i].get_begin(),
                                 });
                             }
-                        }
-
-                        else {
+                        } else {
                             return Err(ParseError::IncorrectEventDefinition {
                                 message: format!("Undefined event value at offset {}", tokens[i].get_begin()),
-                                offset: tokens[i].get_begin()
+                                offset: tokens[i].get_begin(),
                             });
                         }
-                    }
-
-                    else {
+                    } else {
                         return Err(ParseError::IncorrectEventDefinition {
                             message: format!("Incorrect event definition at offset {}", tokens[i].get_begin()),
-                            offset: tokens[i].get_begin()
+                            offset: tokens[i].get_begin(),
                         });
                     }
                 }
@@ -175,7 +163,7 @@ impl Parser {
                     if i + 1 >= tokens.len() {
                         return Err(ParseError::IncorrectObjectDefinition {
                             message: format!("Incorrect object definition at offset {}", tokens[i].get_begin()),
-                            offset: tokens[i].get_begin()
+                            offset: tokens[i].get_begin(),
                         });
                     }
 
@@ -202,7 +190,7 @@ impl Parser {
                     else {
                         return Err(ParseError::IncorrectObjectDefinition {
                             message: format!("Incorrect object definition at offset {}", tokens[i].get_begin()),
-                            offset: tokens[i].get_begin()
+                            offset: tokens[i].get_begin(),
                         });
                     }
                 }
@@ -212,7 +200,7 @@ impl Parser {
             else {
                 return Err(ParseError::IncorrectSyntax {
                     message: format!("Incorrect syntax at offset {}", tokens[i].get_begin()),
-                    offset: tokens[i].get_begin()
+                    offset: tokens[i].get_begin(),
                 });
             }
 

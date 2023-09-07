@@ -8,9 +8,8 @@ pub mod builder;
 pub mod tests;
 
 pub mod prelude {
-    pub use super::parser::prelude::*;
     pub use super::ast::prelude::*;
-
     #[cfg(feature = "gtk-builder")]
     pub use super::builder::*;
+    pub use super::parser::prelude::*;
 }

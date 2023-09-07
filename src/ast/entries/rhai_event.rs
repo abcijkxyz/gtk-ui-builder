@@ -4,7 +4,7 @@ use crate::ast::entry::Entry;
 pub struct RhaiEvent {
     pub name: String,
     pub code: String,
-    event_id: usize
+    event_id: usize,
 }
 
 impl RhaiEvent {
@@ -12,7 +12,7 @@ impl RhaiEvent {
         Entry::RhaiEvent(Self {
             name,
             code,
-            event_id: std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis() as usize
+            event_id: std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis() as usize,
         })
     }
 

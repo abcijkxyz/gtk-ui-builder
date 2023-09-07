@@ -4,7 +4,7 @@ use crate::ast::entry::Entry;
 pub enum Requirement {
     Gtk(String),
     Libadwaita(String),
-    Other(String, String)
+    Other(String, String),
 }
 
 impl Requirement {
@@ -41,7 +41,7 @@ impl Requirement {
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
 pub struct Root {
     pub requirements: Vec<Requirement>,
-    pub children: Vec<Entry>
+    pub children: Vec<Entry>,
 }
 
 impl Root {
@@ -113,12 +113,10 @@ impl Root {
                 Entry::Object(obj) => {
                     if let Some(name) = &obj.name {
                         Some((name.clone(), obj.clone()))
-                    }
-
-                    else {
+                    } else {
                         None
                     }
-                },
+                }
                 _ => None
             }
         })

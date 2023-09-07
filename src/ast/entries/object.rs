@@ -4,7 +4,7 @@ use crate::ast::entry::Entry;
 pub struct Object {
     pub class: String,
     pub name: Option<String>,
-    pub children: Vec<Entry>
+    pub children: Vec<Entry>,
 }
 
 impl Object {
@@ -52,12 +52,10 @@ impl Object {
 
                 continue;
             }
-            
+
             if let Entry::Property(property) = child {
                 properties += &property.get_xml();
-            }
-
-            else {
+            } else {
                 children += &format!("<child>{}</child>", child.get_xml());
             }
         }

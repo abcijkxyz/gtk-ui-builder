@@ -1,5 +1,5 @@
-use crate::parser::prelude::*;
 use crate::ast::entries::prelude::*;
+use crate::parser::prelude::*;
 
 #[test]
 fn check_tokenizing_error() {
@@ -28,9 +28,7 @@ fn check_use_statement_error() {
 
     if let Err(ParseError::IncorrectUseStatement { .. }) = tree {
         assert!(true);
-    }
-    
-    else {
+    } else {
         assert!(false);
     }
 }
